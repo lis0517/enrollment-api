@@ -1,6 +1,6 @@
-package kr.sparta.enrollment.student;
+package kr.sparta.enrollment.domain.student;
 
-import kr.sparta.enrollment.student.model.Student;
+import kr.sparta.enrollment.domain.student.model.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

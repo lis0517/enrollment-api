@@ -1,5 +1,8 @@
-package kr.sparta.enrollment.student.model;
+package kr.sparta.enrollment.domain.student.model;
 
+import lombok.Getter;
+
+@Getter
 public enum Course {
     JAVA            ("Java",             CourseType.MANDATORY)
     ,OOP             ("객체지향",            CourseType.MANDATORY)

@@ -1,10 +1,16 @@
-package kr.sparta.enrollment.student.model;
+package kr.sparta.enrollment.domain.student.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity(name = "enrollment")
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Enrollment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,8 +1,8 @@
-package kr.sparta.enrollment.student;
+package kr.sparta.enrollment.domain.student;
 
-import kr.sparta.enrollment.student.exception.NotFoundException;
-import kr.sparta.enrollment.student.model.Student;
-import kr.sparta.enrollment.student.model.StudentAddRequest;
+import kr.sparta.enrollment.domain.student.exception.NotFoundException;
+import kr.sparta.enrollment.domain.student.model.Student;
+import kr.sparta.enrollment.domain.student.model.StudentAddRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 

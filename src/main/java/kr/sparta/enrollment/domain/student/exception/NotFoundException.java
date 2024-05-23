@@ -1,4 +1,4 @@
-package kr.sparta.enrollment.student.exception;
+package kr.sparta.enrollment.domain.student.exception;
 
 public class NotFoundException extends RuntimeException {
     public NotFoundException(String message) {

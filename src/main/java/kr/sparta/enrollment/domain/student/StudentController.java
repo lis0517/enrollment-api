@@ -1,8 +1,8 @@
-package kr.sparta.enrollment.student;
+package kr.sparta.enrollment.domain.student;
 
 import jakarta.validation.Valid;
-import kr.sparta.enrollment.student.model.Student;
-import kr.sparta.enrollment.student.model.StudentAddRequest;
+import kr.sparta.enrollment.domain.student.model.Student;
+import kr.sparta.enrollment.domain.student.model.StudentAddRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

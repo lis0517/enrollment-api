@@ -1,4 +1,4 @@
-package kr.sparta.enrollment.student.model;
+package kr.sparta.enrollment.domain.student.model;
 
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
