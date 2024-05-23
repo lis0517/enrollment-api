@@ -1,12 +1,14 @@
 package kr.sparta.enrollment.student.model;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.util.List;
 
 @Entity(name = "student")
 @Getter
+@Builder
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,7 +18,8 @@ public class Student {
     private String name;
 
     @Column
-    private String status;
+    @Enumerated(value = EnumType.STRING)
+    private StudentStatus status;
 
     @OneToMany(mappedBy = "studentId")
     private List<Enrollment> courseList;

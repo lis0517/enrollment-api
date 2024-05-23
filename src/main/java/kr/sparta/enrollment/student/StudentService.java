@@ -2,6 +2,7 @@ package kr.sparta.enrollment.student;
 
 import kr.sparta.enrollment.student.exception.NotFoundException;
 import kr.sparta.enrollment.student.model.Student;
+import kr.sparta.enrollment.student.model.StudentAddRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -16,5 +17,14 @@ public class StudentService {
     public Student getStudent(@PathVariable long studentNo) {
         return studentRepository.findById(studentNo)
                 .orElseThrow(() -> new NotFoundException("No student found"));
+    }
+
+    public Student addStudent(StudentAddRequest req) {
+        final Student newStudent = Student.builder()
+                .name(req.getName())
+                .status(req.getStatus())
+                .build();
+
+        return studentRepository.save(newStudent);
     }
 }

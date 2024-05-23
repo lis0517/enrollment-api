@@ -1,15 +1,15 @@
 package kr.sparta.enrollment.student;
 
+import jakarta.validation.Valid;
 import kr.sparta.enrollment.student.model.Student;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import kr.sparta.enrollment.student.model.StudentAddRequest;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1")
 public class StudentController {
-    private StudentService studentService;
+    private final StudentService studentService;
 
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
@@ -18,5 +18,11 @@ public class StudentController {
     @GetMapping("/students/{studentNo}")
     public Student getStudent(@PathVariable long studentNo) {
         return studentService.getStudent(studentNo);
+    }
+
+    @PostMapping("/students")
+    public ResponseEntity<?> addStudent(@RequestBody @Valid StudentAddRequest req) {
+        studentService.addStudent(req);
+        return ResponseEntity.ok().build();
     }
 }
