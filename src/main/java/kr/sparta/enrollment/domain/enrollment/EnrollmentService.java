@@ -2,9 +2,8 @@ package kr.sparta.enrollment.domain.enrollment;
 
 import kr.sparta.enrollment.domain.student.StudentRepository;
 import kr.sparta.enrollment.domain.student.exception.NotFoundException;
-import kr.sparta.enrollment.domain.student.model.Course;
-import kr.sparta.enrollment.domain.student.model.Enrollment;
-import kr.sparta.enrollment.domain.student.model.Student;
+import kr.sparta.enrollment.domain.enrollment.model.Course;
+import kr.sparta.enrollment.domain.enrollment.model.Enrollment;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

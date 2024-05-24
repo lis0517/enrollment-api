@@ -1,5 +1,6 @@
 package kr.sparta.enrollment.domain.student;
 
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import kr.sparta.enrollment.domain.student.model.Student;
 import kr.sparta.enrollment.domain.student.model.StudentAddRequest;
@@ -16,6 +17,7 @@ public class StudentController {
     }
 
     @GetMapping("/students/{studentNo}")
+    @ApiResponse(responseCode = "204", description = "수강생을 찾을 수 없음")
     public Student getStudent(@PathVariable long studentNo) {
         return studentService.getStudent(studentNo);
     }

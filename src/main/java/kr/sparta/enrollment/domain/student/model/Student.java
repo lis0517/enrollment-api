@@ -1,6 +1,7 @@
 package kr.sparta.enrollment.domain.student.model;
 
 import jakarta.persistence.*;
+import kr.sparta.enrollment.domain.enrollment.model.Enrollment;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

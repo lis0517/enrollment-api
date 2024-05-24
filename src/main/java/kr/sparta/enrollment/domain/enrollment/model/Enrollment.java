@@ -1,4 +1,4 @@
-package kr.sparta.enrollment.domain.student.model;
+package kr.sparta.enrollment.domain.enrollment.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
