@@ -47,4 +47,12 @@ public class StudentService {
 
         return dto;
     }
+
+    public void updateStudent(Long studentId, StudentAddRequest request) {
+        Student student = studentRepository.findById(studentId).orElseThrow(
+                () -> new NotFoundException("Student not found"));
+
+        student.updateStudent(request.getName(), request.getStatus());
+        studentRepository.save(student);
+    }
 }

@@ -32,4 +32,9 @@ public class Student {
 
     @OneToMany(mappedBy = "student")
     private List<Score> scores;
+
+    public void updateStudent(String name, StudentStatus status){
+        this.name = name;
+        this.status = status;
+    }
 }

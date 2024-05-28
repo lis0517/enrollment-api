@@ -41,5 +41,13 @@ public class StudentController {
         return studentService.getStudents();
     }
 
+    @PutMapping("/students/{studentId}")
+    @Operation(summary = "수강생 정보를 수정", description = "선택된 수강생 정보를 수정하는 API입니다.")
+    @ApiResponse(responseCode = "204", description = "수강생을 찾을 수 없음")
+    public ResponseEntity<?> updateStudent(@PathVariable Long studentId, @RequestBody StudentAddRequest request){
+        studentService.updateStudent(studentId, request);
+        return ResponseEntity.ok().build();
+    }
+
 
 }
