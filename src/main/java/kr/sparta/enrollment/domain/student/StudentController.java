@@ -3,6 +3,7 @@ package kr.sparta.enrollment.domain.student;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
+import kr.sparta.enrollment.domain.score.model.StatusAverageGradeResponse;
 import kr.sparta.enrollment.domain.score.model.StudentAverageGradeResponse;
 import kr.sparta.enrollment.domain.student.model.*;
 import org.springframework.http.ResponseEntity;
@@ -66,6 +67,13 @@ public class StudentController {
     @Operation(summary = "수강생의 과목별 평균 등급을 조회", description = "수강생의 과목별 평균 등급을 조회하는 API입니다.")
     public ResponseEntity<StudentAverageGradeResponse> getAverageGradesByStudent(@PathVariable Long studentId){
         StudentAverageGradeResponse response = studentService.getAverageGradesByStudent(studentId);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/status/{status}/courses/averageGrade")
+    @Operation(summary = "수강생의 상태 별 평균 등급을 조회", description = "수강생의 과목별 평균 등급을 조회하는 API입니다.")
+    public ResponseEntity<StatusAverageGradeResponse> getAverageGradesByStatus(@PathVariable StudentStatus status){
+        StatusAverageGradeResponse response = studentService.getAverageGradesByStatus(status);
         return ResponseEntity.ok(response);
     }
 }

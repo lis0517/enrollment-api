@@ -6,10 +6,7 @@ import kr.sparta.enrollment.domain.enrollment.model.Course;
 import kr.sparta.enrollment.domain.enrollment.model.CourseType;
 import kr.sparta.enrollment.domain.score.ScoreHelper;
 import kr.sparta.enrollment.domain.score.ScoreRepository;
-import kr.sparta.enrollment.domain.score.model.AverageGrade;
-import kr.sparta.enrollment.domain.score.model.Score;
-import kr.sparta.enrollment.domain.score.model.StudentAverageGradeResponse;
-import kr.sparta.enrollment.domain.score.model.StudentGradeResponse;
+import kr.sparta.enrollment.domain.score.model.*;
 import kr.sparta.enrollment.domain.student.exception.NotFoundException;
 import kr.sparta.enrollment.domain.student.model.*;
 import org.springframework.stereotype.Service;
@@ -100,18 +97,7 @@ public class StudentService {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new NotFoundException("Student not found"));
 
-        List<Score> mandatoryScores = scoreRepository.findMandatoryScoresByStudentId(studentId);
-        Map<Course, DoubleSummaryStatistics> scoreStatistics = mandatoryScores.stream()
-                .collect(Collectors.groupingBy(
-                        score -> score.getEnrollment().getCourse(),
-                        Collectors.summarizingDouble(Score::getScore)
-                ));
-
-        List<AverageGrade> averageGrades = scoreStatistics.entrySet().stream()
-                .map(entry-> new AverageGrade(
-                        entry.getKey().getName(),
-                        ScoreHelper.calculateMandatoryCourseGrade((int)entry.getValue().getAverage())))
-                .collect(Collectors.toList());
+        List<AverageGrade> averageGrades = getAverageGrade(scoreRepository.findMandatoryScoresByStudentId(studentId));
 
         StudentAverageGradeResponse response = new StudentAverageGradeResponse();
         response.setId(studentId);
@@ -119,5 +105,30 @@ public class StudentService {
         response.setGradeList(averageGrades);
 
         return response;
+    }
+
+    public StatusAverageGradeResponse getAverageGradesByStatus(StudentStatus status) {
+        List<AverageGrade> averageGrades = getAverageGrade(scoreRepository.findMandatoryScoresByStudentStatus(status));
+
+        StatusAverageGradeResponse response = new StatusAverageGradeResponse();
+        response.setStatus(status);
+        response.setGradeList(averageGrades);
+
+        return response;
+    }
+
+    private List<AverageGrade> getAverageGrade(List<Score> scores){
+
+        Map<Course, DoubleSummaryStatistics> summaryStatisticsMap = scores.stream()
+                .collect(Collectors.groupingBy(
+                        score -> score.getEnrollment().getCourse(),
+                        Collectors.summarizingDouble(Score::getScore)
+                ));
+
+        return summaryStatisticsMap.entrySet().stream()
+                .map(entry-> new AverageGrade(
+                        entry.getKey().getName(),
+                        ScoreHelper.calculateMandatoryCourseGrade((int)entry.getValue().getAverage())))
+                .collect(Collectors.toList());
     }
 }
