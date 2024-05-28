@@ -2,12 +2,10 @@ package kr.sparta.enrollment.domain.score.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import kr.sparta.enrollment.domain.score.model.ScoreRequestDto;
+import kr.sparta.enrollment.domain.score.model.ScoreSimpleRequest;
 import kr.sparta.enrollment.domain.score.service.ScoreService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class ScoreController {
@@ -22,6 +20,13 @@ public class ScoreController {
     @Operation(summary = "수강생의 과목별 시험 회차 및 점수 등록", description = "수강생의 과목별 시험 회차 및 점수 등록 API입니다.")
     public ResponseEntity<?> addCourseScore(@PathVariable Long studentNo, @PathVariable Long courseNo, @RequestBody ScoreRequestDto scoreRequestDto){
         scoreService.addCourseScore(studentNo, courseNo, scoreRequestDto);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/students/{studentId}/courses/{courseId}/rounds/{round}")
+    @Operation(summary = "수강생 과목 점수 수정", description = "수강생의 특정 과목 회차 점수를 수정할 수있는 API입니다.")
+    public ResponseEntity<?> updateCourseScore(@PathVariable Long studentId, @PathVariable Long courseId, @PathVariable int round, @RequestBody ScoreSimpleRequest scoreSimpleRequest){
+        scoreService.updateCourseScore(studentId, courseId, round, scoreSimpleRequest);
         return ResponseEntity.ok().build();
     }
 

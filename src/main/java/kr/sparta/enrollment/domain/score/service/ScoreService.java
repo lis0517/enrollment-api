@@ -5,6 +5,7 @@ import kr.sparta.enrollment.domain.enrollment.EnrollmentRepository;
 import kr.sparta.enrollment.domain.enrollment.model.Enrollment;
 import kr.sparta.enrollment.domain.score.model.Score;
 import kr.sparta.enrollment.domain.score.model.ScoreRequestDto;
+import kr.sparta.enrollment.domain.score.model.ScoreSimpleRequest;
 import kr.sparta.enrollment.domain.score.repository.ScoreRepository;
 import kr.sparta.enrollment.domain.student.StudentRepository;
 import kr.sparta.enrollment.domain.student.exception.NotFoundException;
@@ -22,19 +23,17 @@ public class ScoreService {
         this.studentRepository = studentRepository;
     }
 
-    public void addCourseScore(Long studentNo, Long courseNo, ScoreRequestDto scoreRequestDto) {
-        Student student = studentRepository.findById(studentNo)
-                .orElseThrow(() -> new NotFoundException(" for the given student and course"));
+    public void addCourseScore(Long studentId, Long courseId, ScoreRequestDto scoreRequestDto) {
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new NotFoundException("Student not found"));
 
         Enrollment enrollment = student.getCourseList().stream()
-                .filter(x->x.getId() == courseNo)
+                .filter(x->x.getId() == courseId)
                 .findFirst().orElseThrow(()-> new NotFoundException(("Enrollment not found")));
 
         if (scoreRepository.existsByEnrollmentAndRound(enrollment, scoreRequestDto.getRound())) {
             throw new DuplicateKeyException("Score already exists for the given enrollment and round");
         }
-
-        System.out.println(enrollment.getCourse() + ", " + enrollment.getCourseType());
 
         Score score = Score.builder()
                 .student(student)
@@ -45,6 +44,14 @@ public class ScoreService {
                 .build();
         score.calculateGrade();
 
+        scoreRepository.save(score);
+    }
+
+    public void updateCourseScore(Long studentId, Long courseId, int round, ScoreSimpleRequest scoreSimpleRequest) {
+        Score score = scoreRepository.findByStudentIdAndEnrollmentIdAndRound(studentId, courseId, round)
+                .orElseThrow(()-> new NotFoundException("해당되는 회차 점수를 찾을 수 없습니다."));
+
+        score.updateScore(scoreSimpleRequest.getScore());
         scoreRepository.save(score);
     }
 }

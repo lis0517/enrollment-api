@@ -46,8 +46,14 @@ public class Score {
     @Min(value = 0, message = "점수는 0보다 크거나 같아야합니다.")
     @Max(value = 100, message = "점수는 100보다 작거나 같아야합니다.")
     private int score;
+
     @Column(nullable = false)
     private String grade;
+
+    public void updateScore(int newScore){
+        this.score = newScore;
+        calculateGrade();
+    }
 
     @PrePersist
     public void calculateGrade() {
