@@ -1,13 +1,8 @@
-package kr.sparta.enrollment.domain.score.service;
+package kr.sparta.enrollment.domain.score;
 
-import jakarta.transaction.Transactional;
 import kr.sparta.enrollment.domain.enrollment.EnrollmentRepository;
 import kr.sparta.enrollment.domain.enrollment.model.Enrollment;
-import kr.sparta.enrollment.domain.score.model.Score;
-import kr.sparta.enrollment.domain.score.model.ScoreRequestDto;
-import kr.sparta.enrollment.domain.score.model.ScoreSimpleRequest;
-import kr.sparta.enrollment.domain.score.model.StudentGradeResponse;
-import kr.sparta.enrollment.domain.score.repository.ScoreRepository;
+import kr.sparta.enrollment.domain.score.model.*;
 import kr.sparta.enrollment.domain.student.StudentRepository;
 import kr.sparta.enrollment.domain.student.exception.NotFoundException;
 import kr.sparta.enrollment.domain.student.model.Student;
@@ -84,7 +79,7 @@ public class ScoreService {
             throw new NotFoundException("Scores not found");
         }
 
-        Map<Integer, String> grades = new HashMap<>();
+        Map<Integer, Grade> grades = new HashMap<>();
         for(Score score : scores){
             grades.put(score.getRound(), score.getGrade());
         }

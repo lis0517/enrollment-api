@@ -1,15 +1,12 @@
-package kr.sparta.enrollment.domain.score.controller;
+package kr.sparta.enrollment.domain.score;
 
 import io.swagger.v3.oas.annotations.Operation;
 import kr.sparta.enrollment.domain.score.model.ScoreRequestDto;
 import kr.sparta.enrollment.domain.score.model.ScoreSimpleRequest;
 import kr.sparta.enrollment.domain.score.model.StudentGradeResponse;
-import kr.sparta.enrollment.domain.score.service.ScoreService;
 import kr.sparta.enrollment.domain.student.exception.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 public class ScoreController {

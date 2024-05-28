@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Min;
 import kr.sparta.enrollment.domain.enrollment.model.Course;
 import kr.sparta.enrollment.domain.enrollment.model.CourseType;
 import kr.sparta.enrollment.domain.enrollment.model.Enrollment;
+import kr.sparta.enrollment.domain.score.ScoreHelper;
 import kr.sparta.enrollment.domain.student.model.Student;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -48,7 +49,8 @@ public class Score {
     private int score;
 
     @Column(nullable = false)
-    private String grade;
+    @Enumerated(EnumType.STRING)
+    private Grade grade;
 
     public void updateScore(int newScore){
         this.score = newScore;
@@ -59,33 +61,9 @@ public class Score {
     public void calculateGrade() {
 
         if ( enrollment.getCourse().getType() == CourseType.MANDATORY ){
-            if (score >= 95 && score <= 100) {
-                grade = "A";
-            } else if (score >= 90 && score <= 94) {
-                grade = "B";
-            } else if (score >= 80 && score <= 89) {
-                grade = "C";
-            } else if (score >= 70 && score <= 79) {
-                grade = "D";
-            } else if (score >= 60 && score <= 69) {
-                grade = "F";
-            } else {
-                grade = "N";
-            }
+            grade = ScoreHelper.calculateMandatoryCourseGrade(score);
         }else{
-            if (score >= 90 && score <= 100) {
-                grade = "A";
-            } else if (score >= 80 && score <= 89) {
-                grade = "B";
-            } else if (score >= 70 && score <= 79) {
-                grade = "C";
-            } else if (score >= 60 && score <= 69) {
-                grade = "D";
-            } else if (score >= 50 && score <= 59) {
-                grade = "F";
-            } else {
-                grade = "N";
-            }
+            grade = ScoreHelper.calculateOptionalCourseGrade(score);
         }
     }
 }

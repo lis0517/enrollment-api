@@ -3,6 +3,7 @@ package kr.sparta.enrollment.domain.student;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
+import kr.sparta.enrollment.domain.score.model.StudentAverageGradeResponse;
 import kr.sparta.enrollment.domain.student.model.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -55,9 +56,16 @@ public class StudentController {
     }
 
     @DeleteMapping("/students/{studentId}")
-    @Operation(summary = "수강색 삭제하기", description = "수강생을 삭제하는 API입니다. 점수도 같이 삭제됩니다.")
+    @Operation(summary = "수강생 삭제하기", description = "수강생을 삭제하는 API입니다. 점수도 같이 삭제됩니다.")
     public ResponseEntity<?> deleteStudent(@PathVariable Long studentId){
         studentService.deleteStudent(studentId);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/students/{studentId}/courses/averageGrade")
+    @Operation(summary = "수강생의 과목별 평균 등급을 조회", description = "수강생의 과목별 평균 등급을 조회하는 API입니다.")
+    public ResponseEntity<StudentAverageGradeResponse> getAverageGradesByStudent(@PathVariable Long studentId){
+        StudentAverageGradeResponse response = studentService.getAverageGradesByStudent(studentId);
+        return ResponseEntity.ok(response);
     }
 }

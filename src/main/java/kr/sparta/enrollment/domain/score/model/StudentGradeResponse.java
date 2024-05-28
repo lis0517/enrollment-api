@@ -14,5 +14,5 @@ public class StudentGradeResponse {
     private String name;
     private Long courseNo;
     private String courseName;
-    private Map<Integer, String> gradeList;
+    private Map<Integer, Grade> gradeList;
 }
