@@ -1,11 +1,12 @@
 package kr.sparta.enrollment.domain.student;
 
+import jakarta.transaction.Transactional;
+import kr.sparta.enrollment.domain.enrollment.EnrollmentRepository;
 import kr.sparta.enrollment.domain.enrollment.model.Enrollment;
 import kr.sparta.enrollment.domain.score.model.Score;
+import kr.sparta.enrollment.domain.score.repository.ScoreRepository;
 import kr.sparta.enrollment.domain.student.exception.NotFoundException;
-import kr.sparta.enrollment.domain.student.model.SimpleStudentDto;
-import kr.sparta.enrollment.domain.student.model.Student;
-import kr.sparta.enrollment.domain.student.model.StudentAddRequest;
+import kr.sparta.enrollment.domain.student.model.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -15,9 +16,15 @@ import java.util.List;
 @Service
 public class StudentService {
     private final StudentRepository studentRepository;
+    private final ScoreRepository scoreRepository;
+    private final EnrollmentRepository enrollmentRepository;
 
-    public StudentService(StudentRepository studentRepository) {
+    public StudentService(StudentRepository studentRepository,
+                          ScoreRepository scoreRepository,
+                          EnrollmentRepository enrollmentRepository) {
         this.studentRepository = studentRepository;
+        this.enrollmentRepository = enrollmentRepository;
+        this.scoreRepository = scoreRepository;
     }
 
     public Student getStudent(@PathVariable long studentNo) {
@@ -54,5 +61,29 @@ public class StudentService {
 
         student.updateStudent(request.getName(), request.getStatus());
         studentRepository.save(student);
+    }
+
+    public StudentStatusResponse getStudentsByStatus(StudentStatus status) {
+        List<Student> studentList = studentRepository.findAllByStatus(status);
+
+        if (studentList.isEmpty()){
+            throw new NotFoundException("Student list is empty");
+        }
+        System.out.println(studentList.size());
+
+        StudentStatusResponse response = new StudentStatusResponse();
+        response.setStatus(status);
+        response.setStudentList(studentList);
+        return response;
+    }
+
+    @Transactional
+    public void deleteStudent(Long studentId) {
+        Student student = studentRepository.findById(studentId).orElseThrow(
+                () -> new NotFoundException("Student not found"));
+
+        scoreRepository.deleteByStudentId(studentId);
+        enrollmentRepository.deleteByStudentId(studentId);
+        studentRepository.delete(student);
     }
 }
