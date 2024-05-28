@@ -3,9 +3,13 @@ package kr.sparta.enrollment.domain.score.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import kr.sparta.enrollment.domain.score.model.ScoreRequestDto;
 import kr.sparta.enrollment.domain.score.model.ScoreSimpleRequest;
+import kr.sparta.enrollment.domain.score.model.StudentGradeResponse;
 import kr.sparta.enrollment.domain.score.service.ScoreService;
+import kr.sparta.enrollment.domain.student.exception.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 public class ScoreController {
@@ -30,4 +34,16 @@ public class ScoreController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/students/{studentId}/courses/{courseId}/grades")
+    @Operation(summary = "수강생의 특정 과목 회차별 등급을 조회", description = "수강생의 특정 과목 회차별 등급을 조회할 수있는 API입니다.")
+    public ResponseEntity<StudentGradeResponse> getGradesByStudentIdAndCourse(
+            @PathVariable Long studentId,
+            @PathVariable Long courseId ){
+        try{
+            StudentGradeResponse response = scoreService.getGradesByStudentIdAndCourse(studentId, courseId);
+            return ResponseEntity.ok(response);
+        }catch (NotFoundException e){
+            return ResponseEntity.noContent().build();
+        }
+    }
 }
