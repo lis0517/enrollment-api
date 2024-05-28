@@ -1,5 +1,7 @@
 package kr.sparta.enrollment.domain.student;
 
+import kr.sparta.enrollment.domain.enrollment.model.Enrollment;
+import kr.sparta.enrollment.domain.score.model.Score;
 import kr.sparta.enrollment.domain.student.exception.NotFoundException;
 import kr.sparta.enrollment.domain.student.model.SimpleStudentDto;
 import kr.sparta.enrollment.domain.student.model.Student;

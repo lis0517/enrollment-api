@@ -17,7 +17,9 @@ DROP TABLE IF EXISTS score;
 CREATE TABLE score (
    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'ID',
    student_id BIGINT NOT NULL COMMENT '수강생 ID',
+   enrollment_id BIGINT NOT NULL COMMENT '강의 ID',
    course VARCHAR(100) NOT NULL COMMENT '수강과목',
    round INT NOT NULL COMMENT '시험 회차',
-   score INT(3) NOT NULL COMMENT '시험 점수'
+   score INT(3) NOT NULL COMMENT '시험 점수',
+   grade VARCHAR(1) NOT NULL COMMENT '등급'
 );

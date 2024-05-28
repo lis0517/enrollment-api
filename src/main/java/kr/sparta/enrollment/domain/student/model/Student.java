@@ -2,6 +2,7 @@ package kr.sparta.enrollment.domain.student.model;
 
 import jakarta.persistence.*;
 import kr.sparta.enrollment.domain.enrollment.model.Enrollment;
+import kr.sparta.enrollment.domain.score.model.Score;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,4 +29,7 @@ public class Student {
 
     @OneToMany(mappedBy = "studentId")
     private List<Enrollment> courseList;
+
+    @OneToMany(mappedBy = "student")
+    private List<Score> scores;
 }

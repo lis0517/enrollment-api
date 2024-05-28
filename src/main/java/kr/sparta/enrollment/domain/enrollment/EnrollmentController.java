@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 @RestController
+@RequestMapping("/v1")
 public class EnrollmentController {
     private final EnrollmentService enrollmentService;
 
